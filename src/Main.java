@@ -1,5 +1,7 @@
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class Main {
     public static void main(String[] args) {
@@ -54,14 +56,32 @@ public class Main {
         JLabel victory = new JLabel("hat gewonnen !!!");
         JLabel player = new JLabel("");
         victory.setFont(new java.awt.Font("Arial",Font.BOLD,20));
+        player.setFont(new java.awt.Font("Arial", Font.BOLD,15));
 
+        victory.setVisible(false);
         topElements.add(player);
         topElements.add(victory);
 
 
-
         //Game Mechanics
-        boolean randomPlayer;
+        boolean playerone;
+        String firstPlayer = "X";
+        String secondPlayer = "O";
+
+        newgame.setEnabled(false);
+
+        play.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if(Math.random() < 0.5){
+                    player.setText("Spieler 1 ist dran.");
+                } else {
+                    player.setText("Spieler 2 ist dran.");
+                }
+                play.setEnabled(false);
+            }
+        });
+
 
     }
 }
