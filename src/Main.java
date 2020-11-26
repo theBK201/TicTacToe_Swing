@@ -16,7 +16,7 @@ public class Main {
         topElements.setLayout(new FlowLayout());
 
         // Defining the Frame and it's basic options
-        mainFrame.setSize(400,400);
+        mainFrame.setSize(500,500);
         mainFrame.setVisible(true);
         mainFrame.setLocation(450,100);
         mainFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
@@ -67,27 +67,119 @@ public class Main {
             }
         });
 
-        ActionListener listener = new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if(e.getSource() instanceof JButton){
-                    String text = (((JButton) e.getSource()).getText());
-                if (text.isEmpty()){
-                    if(playerone){
-                        text = firstPlayer;
-                    }else {
-                        text = secondPlayer;
-                    }
-                }
-                }
-            }
-        };
+//        ActionListener listener = new ActionListener() {
+//            @Override
+//            public void actionPerformed(ActionEvent e) {
+//                if(e.getSource() instanceof JButton){
+//                    String text = (((JButton) e.getSource()).getText());
+//                if (text.isEmpty()){
+//                    if(playerone){
+//                        text = firstPlayer;
+//                    }else {
+//                        text = secondPlayer;
+//                    }
+//                }
+//                }
+//            }
+//        };
 
         JButton[] buttons = new JButton[9];
 
         for(int i = 0; i < buttons.length; i++){
             buttons[i] = new JButton("");
+            buttons[i].setFont(new java.awt.Font("Arial",Font.BOLD,30));
             gridPanel.add(buttons[i]);
         }
+
+        buttons[0].addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if(playerone){
+                    buttons[0].setText(firstPlayer);
+                }else {
+                    buttons[0].setText(secondPlayer);
+                }
+            }
+        });
+        buttons[1].addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if(playerone){
+                    buttons[1].setText(firstPlayer);
+                }else {
+                    buttons[1].setText(secondPlayer);
+                }
+            }
+        });
+        buttons[2].addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if(playerone){
+                    buttons[2].setText(firstPlayer);
+                }else {
+                    buttons[2].setText(secondPlayer);
+                }
+            }
+        });
+        buttons[3].addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if(playerone){
+                    buttons[3].setText(firstPlayer);
+                }else {
+                    buttons[3].setText(secondPlayer);
+                }
+            }
+        });
+        buttons[4].addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if(playerone){
+                    buttons[4].setText(firstPlayer);
+                }else {
+                    buttons[4].setText(secondPlayer);
+                }
+            }
+        });
+        buttons[5].addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if(playerone){
+                    buttons[5].setText(firstPlayer);
+                }else {
+                    buttons[5].setText(secondPlayer);
+                }
+            }
+        });
+        buttons[6].addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if(playerone){
+                    buttons[6].setText(firstPlayer);
+                }else {
+                    buttons[6].setText(secondPlayer);
+                }
+            }
+        });
+        buttons[7].addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if(playerone){
+                    buttons[7].setText(firstPlayer);
+                }else {
+                    buttons[7].setText(secondPlayer);
+                }
+            }
+        });
+        buttons[8].addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if(playerone){
+                    buttons[8].setText(firstPlayer);
+                }else {
+                    buttons[8].setText(secondPlayer);
+                }
+            }
+        });
     }
 }
