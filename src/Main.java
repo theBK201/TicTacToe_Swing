@@ -23,27 +23,9 @@ public class Main {
 
 
         //Defining the buttons and also adding them to the Frame
-        JButton jb1 = new JButton();
-        JButton jb2 = new JButton();
-        JButton jb3 = new JButton();
-        JButton jb4 = new JButton();
-        JButton jb5 = new JButton();
-        JButton jb6 = new JButton();
-        JButton jb7 = new JButton();
-        JButton jb8 = new JButton();
-        JButton jb9 = new JButton();
+
         JButton play = new JButton("Play");
         JButton newgame = new JButton("New Game");
-
-        gridPanel.add(jb1);
-        gridPanel.add(jb2);
-        gridPanel.add(jb3);
-        gridPanel.add(jb4);
-        gridPanel.add(jb5);
-        gridPanel.add(jb6);
-        gridPanel.add(jb7);
-        gridPanel.add(jb8);
-        gridPanel.add(jb9);
         bottomButtons.add(play);
         bottomButtons.add(newgame);
 
@@ -64,7 +46,7 @@ public class Main {
 
 
         //Game Mechanics
-        boolean playerone;
+        boolean playerone = false;
         String firstPlayer = "X";
         String secondPlayer = "O";
 
@@ -73,8 +55,11 @@ public class Main {
         play.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                boolean playerone;
+
                 if(Math.random() < 0.5){
                     player.setText("Spieler 1 ist dran.");
+                    playerone = true;
                 } else {
                     player.setText("Spieler 2 ist dran.");
                 }
@@ -82,6 +67,27 @@ public class Main {
             }
         });
 
+        ActionListener listener = new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if(e.getSource() instanceof JButton){
+                    String text = (((JButton) e.getSource()).getText());
+                if (text.isEmpty()){
+                    if(playerone){
+                        text = firstPlayer;
+                    }else {
+                        text = secondPlayer;
+                    }
+                }
+                }
+            }
+        };
 
+        JButton[] buttons = new JButton[9];
+
+        for(int i = 0; i < buttons.length; i++){
+            buttons[i] = new JButton("");
+            gridPanel.add(buttons[i]);
+        }
     }
 }
