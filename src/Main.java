@@ -97,6 +97,7 @@ public class Main {
                     @Override
                     public void actionPerformed(ActionEvent e) {
                         for (int i = 0; i < buttons.length; i++){
+                            boolean plOne = false;
                             if (playerOne) {
                                 buttons[i].setText(firstPlayer);
                                 playerOne = false;
