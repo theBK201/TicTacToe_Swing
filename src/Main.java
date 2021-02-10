@@ -5,6 +5,11 @@ import java.awt.event.ActionListener;
 import java.util.Random;
 
 public class Main {
+    boolean gameStarted = false;
+    boolean playerOne = false;
+    boolean playerTwo = false;
+    Random chosenPlayer = new Random();
+
     public static void main(String[] args) {
         JFrame mainFrame = new JFrame("Tic Tac Toe with Swing Library");
         JPanel gridPanel = new JPanel();
@@ -49,10 +54,6 @@ public class Main {
         //Game Mechanics
         String firstPlayer = "X";
         String secondPlayer = "O";
-        boolean gameStarted = false;
-        boolean playerOne = false;
-        boolean playerTwo= false;
-        Random chosenPlayer = new Random();
 
         newGame.setEnabled(false);
 
@@ -68,22 +69,9 @@ public class Main {
         play.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
-                boolean gs = false;
-                String whichPlayer = "";
+                Main myObj = new Main();
                 play.setEnabled(false);
-                gs = true;
-                gs = gameStarted;
-
-                int randomNum = chosenPlayer.nextInt(2) + 1;
-                if (randomNum == 1) {
-                    whichPlayer = ("Spieler 1 ist dran.");
-                    player.setText(whichPlayer);
-                    playerOne = true;
-                } else {
-                    player = ("Spieler 2 ist dran.");
-                    playerTwo = true;
-                }
+                player.setText(myObj.gameStarted());
 
                 for (int i = 0; i < buttons.length; i++) {
                     buttons[i].setEnabled(true);
@@ -91,25 +79,38 @@ public class Main {
             }
         });
 
-        while (gameStarted) {
-            for (int i = 0; i < buttons.length; i++) {
-                buttons[i].addActionListener(new ActionListener() {
-                    @Override
-                    public void actionPerformed(ActionEvent e) {
-                        for (int i = 0; i < buttons.length; i++){
-                            boolean plOne = false;
-                            if (playerOne) {
-                                buttons[i].setText(firstPlayer);
-                                playerOne = false;
-                            }
-                            if(playerTwo){
-                                buttons[i].setText(secondPlayer);
-                                playerTwo = false;
-                            }
-                        }
-                    }
-                });
-            }
+//        while (gameStarted) {
+//            for (int i = 0; i < buttons.length; i++) {
+//                buttons[i].addActionListener(new ActionListener() {
+//                    @Override
+//                    public void actionPerformed(ActionEvent e) {
+//                        for (int i = 0; i < buttons.length; i++){
+//                            if (playerOne) {
+//                                buttons[i].setText(firstPlayer);
+//                                playerOne = false;
+//                            }
+//                            if(playerTwo){
+//                                buttons[i].setText(secondPlayer);
+//                                playerTwo = false;
+//                            }
+//                        }
+//                    }
+//                });
+//            }
+//        }
+    }
+
+    public String gameStarted() {
+        int randomNum = chosenPlayer.nextInt(2) + 1;
+        String whichPlayer = "";
+
+        if (randomNum == 1) {
+            whichPlayer = "Spieler 1 ist dran.";
+            playerOne = true;
+        } else {
+            whichPlayer = "Spieler 2 ist dran.";
+            playerTwo = true;
         }
+        return whichPlayer;
     }
 }
