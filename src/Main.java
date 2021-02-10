@@ -1,4 +1,6 @@
 import javax.swing.*;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -6,8 +8,8 @@ import java.util.Random;
 
 public class Main {
     boolean gameStarted = false;
-    boolean playerOne = false;
-    boolean playerTwo = false;
+    private boolean playerOne = false;
+    private boolean playerTwo = false;
     Random chosenPlayer = new Random();
 
     public static void main(String[] args) {
@@ -29,7 +31,6 @@ public class Main {
 
 
         //Defining the buttons and also adding them to the Frame
-
         JButton play = new JButton("Play");
         JButton newGame = new JButton("New Game");
         bottomButtons.add(play);
@@ -52,11 +53,7 @@ public class Main {
 
 
         //Game Mechanics
-        String firstPlayer = "X";
-        String secondPlayer = "O";
-
         newGame.setEnabled(false);
-
         JButton[] buttons = new JButton[9];
 
         for (int i = 0; i < buttons.length; i++) {
@@ -69,9 +66,9 @@ public class Main {
         play.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Main myObj = new Main();
+                Main playerSelect = new Main();
                 play.setEnabled(false);
-                player.setText(myObj.gameStarted());
+                player.setText(playerSelect.gameStarting());
 
                 for (int i = 0; i < buttons.length; i++) {
                     buttons[i].setEnabled(true);
@@ -79,28 +76,51 @@ public class Main {
             }
         });
 
-//        while (gameStarted) {
-//            for (int i = 0; i < buttons.length; i++) {
+//        for (int i = 0; i<buttons.length; i++){
+//            buttons[i].addChangeListener(new ChangeListener() {
+//                @Override
+//                public void stateChanged(ChangeEvent e) {
+//                    buttons[0].setEnabled(false);
+//                }
+//            });
+//        }
+
+        Main playerChar = new Main();
+
+//        for (int i = 0; i < buttons.length; i++) {
+//            if (buttons[i].getText().isEmpty()) {
 //                buttons[i].addActionListener(new ActionListener() {
 //                    @Override
 //                    public void actionPerformed(ActionEvent e) {
-//                        for (int i = 0; i < buttons.length; i++){
-//                            if (playerOne) {
-//                                buttons[i].setText(firstPlayer);
-//                                playerOne = false;
-//                            }
-//                            if(playerTwo){
-//                                buttons[i].setText(secondPlayer);
-//                                playerTwo = false;
-//                            }
-//                        }
+//                        buttons[0].setText(playerChar.whichPlayerIsSelected());
+//                        buttons[0].setEnabled(false);
 //                    }
 //                });
 //            }
 //        }
+
+        if(buttons[0].getText().isEmpty()){
+            buttons[0].addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    buttons[0].setText(playerChar.whichPlayerIsSelected());
+                    buttons[0].setEnabled(false);
+                }
+            });
+        }
+
+        if(buttons[1].getText().isEmpty()){
+            buttons[1].addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    buttons[1].setText(playerChar.whichPlayerIsSelected());
+                    buttons[1].setEnabled(false);
+                }
+            });
+        }
     }
 
-    public String gameStarted() {
+    public String gameStarting() {
         int randomNum = chosenPlayer.nextInt(2) + 1;
         String whichPlayer = "";
 
@@ -112,5 +132,26 @@ public class Main {
             playerTwo = true;
         }
         return whichPlayer;
+    }
+
+    public String whichPlayerIsSelected() {
+        String playerChar = "";
+
+        if (playerOne) {
+            playerChar = "X";
+            playerOne = false;
+            playerTwo = true;
+        } else {
+            playerChar = "O";
+            playerTwo = false;
+            playerOne = true;
+        }
+        return playerChar;
+    }
+
+    public String givingTheString() {
+        String btnString = "";
+
+        return btnString;
     }
 }
