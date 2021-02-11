@@ -5,8 +5,8 @@ import java.awt.event.ActionListener;
 import java.util.Random;
 
 public class Main {
-    private boolean playerOne = false;
-    private boolean playerTwo = false;
+    private static boolean playerOne = false;
+    private static boolean playerTwo = false;
     Random chosenPlayer = new Random();
 
     public static void main(String[] args) {
@@ -80,14 +80,14 @@ public class Main {
                 buttons[i].addActionListener(new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
+                        JButton buttonPressed = ((JButton) e.getSource());
+                        buttonPressed.setText(playerChar.whichPlayerIsSelected());
+                        buttonPressed.setEnabled(false);
                         if(playerChar.playerOne){
                             player.setText("Spieler 1 ist dran");
                         }else {
                             player.setText("Spieler 2 ist dran");
                         }
-                        JButton buttonPressed = ((JButton) e.getSource());
-                        buttonPressed.setText(playerChar.whichPlayerIsSelected());
-                        buttonPressed.setEnabled(false);
                     }
                 });
             }
@@ -95,27 +95,34 @@ public class Main {
     }
 
     public String gameStarting() {
+        boolean pl1 = false;
+        boolean pl2 = false;
         int randomNum = chosenPlayer.nextInt(2) + 1;
         String whichPlayer = "";
 
         if (randomNum == 1) {
             whichPlayer = "Spieler 1 ist dran.";
-            playerOne = true;
+            pl1 = true;
         } else {
             whichPlayer = "Spieler 2 ist dran.";
-            playerTwo = true;
+            pl2 = true;
         }
+        this.playerOne = pl1;
+        this.playerTwo = pl2;
+
         return whichPlayer;
     }
 
     public String whichPlayerIsSelected() {
+
         String playerChar = "";
 
         if (playerOne) {
             playerChar = "X";
             playerOne = false;
             playerTwo = true;
-        } else {
+        }
+        if(playerTwo){
             playerChar = "O";
             playerTwo = false;
             playerOne = true;
