@@ -95,8 +95,6 @@ public class Main {
     }
 
     public String gameStarting() {
-        boolean pl1 = false;
-        boolean pl2 = false;
         int randomNum = chosenPlayer.nextInt(2) + 1;
         String whichPlayer = "";
 
@@ -105,7 +103,7 @@ public class Main {
             setPlOne(true);
         } else {
             whichPlayer = "Spieler 2 ist dran.";
-            pl2 = true;
+            setPlTwo(true);
         }
 
         return whichPlayer;
