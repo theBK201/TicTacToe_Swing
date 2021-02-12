@@ -5,8 +5,8 @@ import java.awt.event.ActionListener;
 import java.util.Random;
 
 public class Main {
-    private static boolean playerOne = false;
-    private static boolean playerTwo = false;
+    private  boolean playerOne = false;
+    private  boolean playerTwo = false;
     Random chosenPlayer = new Random();
 
     public static void main(String[] args) {
@@ -102,27 +102,44 @@ public class Main {
 
         if (randomNum == 1) {
             whichPlayer = "Spieler 1 ist dran.";
-            pl1 = true;
+            setPlOne(true);
         } else {
             whichPlayer = "Spieler 2 ist dran.";
             pl2 = true;
         }
-        this.playerOne = pl1;
-        this.playerTwo = pl2;
 
         return whichPlayer;
     }
 
+    public boolean getPlOne(){
+        return playerOne;
+    }
+
+    public  boolean getPlTwo(){
+        return playerTwo;
+    }
+
+    public void setPlOne(boolean o){
+        this.playerOne = o;
+    }
+
+    public void setPlTwo(boolean o){
+        this.playerTwo = o;
+    }
+
     public String whichPlayerIsSelected() {
+
+        getPlOne();
+        getPlTwo();
 
         String playerChar = "";
 
-        if (playerOne) {
+        if (getPlOne()) {
             playerChar = "X";
             playerOne = false;
             playerTwo = true;
         }
-        if(playerTwo){
+        if(getPlTwo()){
             playerChar = "O";
             playerTwo = false;
             playerOne = true;
