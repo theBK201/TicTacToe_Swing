@@ -1,3 +1,4 @@
+import javax.accessibility.Accessible;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -5,27 +6,30 @@ import java.awt.event.ActionListener;
 import java.util.Random;
 
 public class Main {
-    private  boolean playerOne = false;
-    private  boolean playerTwo = false;
-    Random chosenPlayer = new Random();
-
     public static void main(String[] args) {
-        JFrame mainFrame = new JFrame("Tic Tac Toe with Swing Library");
+
+        gameGUI gui = new gameGUI("Tic Tac Toe using the Swing library");
+        gui.setVisible(true);
+    }
+}
+
+class gameGUI extends JFrame implements ActionListener {
+
+    gameGUI(String title) {
+        // Defining the Frame and it's basic options
+        super(title);
+        setSize(500, 500);
+        setLocation(450, 100);
+        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        setLayout(new BorderLayout());
+
         JPanel gridPanel = new JPanel();
         JPanel bottomButtons = new JPanel();
         JPanel topElements = new JPanel();
 
-        mainFrame.setLayout(new BorderLayout());
         gridPanel.setLayout(new GridLayout(3, 3));
         bottomButtons.setLayout(new FlowLayout());
         topElements.setLayout(new FlowLayout());
-
-        // Defining the Frame and it's basic options
-        mainFrame.setSize(500, 500);
-        mainFrame.setVisible(true);
-        mainFrame.setLocation(450, 100);
-        mainFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-
 
         //Defining the buttons and also adding them to the Frame
         JButton play = new JButton("Play");
@@ -33,9 +37,9 @@ public class Main {
         bottomButtons.add(play);
         bottomButtons.add(newGame);
 
-        mainFrame.add(bottomButtons, BorderLayout.PAGE_END);
-        mainFrame.add(gridPanel, BorderLayout.CENTER);
-        mainFrame.add(topElements, BorderLayout.PAGE_START);
+        add(bottomButtons, BorderLayout.PAGE_END);
+        add(gridPanel, BorderLayout.CENTER);
+        add(topElements, BorderLayout.PAGE_START);
 
 
         //Defining Labels
@@ -47,9 +51,6 @@ public class Main {
         victory.setVisible(false);
         topElements.add(player);
         topElements.add(victory);
-
-
-        //Game Mechanics
         newGame.setEnabled(false);
         JButton[] buttons = new JButton[9];
 
@@ -60,88 +61,85 @@ public class Main {
             buttons[i].setEnabled(false);
         }
 
+        gameMechanics mechanics = new gameMechanics();
+
         play.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Main playerSelect = new Main();
                 play.setEnabled(false);
-                player.setText(playerSelect.gameStarting());
-
+                player.setText(mechanics.getPlayer());
                 for (int i = 0; i < buttons.length; i++) {
                     buttons[i].setEnabled(true);
                 }
             }
         });
 
-        Main playerChar = new Main();
-
-        for (int i = 0; i < buttons.length; i++) {
+      for (int i = 0; i < buttons.length; i++) {
             if (buttons[i].getText().isEmpty()) {
                 buttons[i].addActionListener(new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
                         JButton buttonPressed = ((JButton) e.getSource());
-                        buttonPressed.setText(playerChar.whichPlayerIsSelected());
+                        buttonPressed.setText(mechanics.getPlayerChar());
                         buttonPressed.setEnabled(false);
-                        if(playerChar.playerOne){
-                            player.setText("Spieler 1 ist dran");
-                        }else {
-                            player.setText("Spieler 2 ist dran");
-                        }
+                        player.setText(mechanics.getPlayer());
                     }
                 });
             }
-        }
+       }
     }
 
-    public String gameStarting() {
+    @Override
+    public void actionPerformed(ActionEvent e) {
+
+    }
+}
+
+class gameMechanics {
+    boolean playerOne = false;
+    boolean playerTwo = false;
+
+    public int getRandomNum() {
+        Random chosenPlayer = new Random();
         int randomNum = chosenPlayer.nextInt(2) + 1;
+
+        if(randomNum ==1){
+
+            playerOne = true;
+        } else{
+            playerTwo = true;
+        }
+        return randomNum;
+    }
+
+    public String getPlayer() {
+        getRandomNum();
         String whichPlayer = "";
 
-        if (randomNum == 1) {
-            whichPlayer = "Spieler 1 ist dran.";
-            setPlOne(true);
-        } else {
-            whichPlayer = "Spieler 2 ist dran.";
-            setPlTwo(true);
+        if (playerOne) {
+            whichPlayer = "Spieler 1 ist dran";
+            playerOne = false;
+        } else{
+            whichPlayer = "Spieler 2 ist dran";
+            playerTwo = false;
         }
 
         return whichPlayer;
     }
 
-    public boolean getPlOne(){
-        return playerOne;
-    }
-
-    public  boolean getPlTwo(){
-        return playerTwo;
-    }
-
-    public void setPlOne(boolean o){
-        this.playerOne = o;
-    }
-
-    public void setPlTwo(boolean o){
-        this.playerTwo = o;
-    }
-
-    public String whichPlayerIsSelected() {
-
-        getPlOne();
-        getPlTwo();
-
+    public String getPlayerChar(){
         String playerChar = "";
 
-        if (getPlOne()) {
+        if (playerOne){
             playerChar = "X";
             playerOne = false;
-            playerTwo = true;
-        }
-        if(getPlTwo()){
+        }else {
             playerChar = "O";
             playerTwo = false;
-            playerOne = true;
         }
+
         return playerChar;
     }
 }
+
+
