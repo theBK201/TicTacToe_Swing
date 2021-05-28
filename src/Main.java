@@ -51,7 +51,6 @@ class gameGUI extends JFrame implements ActionListener {
         add(gridPanel, BorderLayout.CENTER);
         add(topElements, BorderLayout.PAGE_START);
 
-
         //Defining Labels
         JLabel victory = new JLabel("");
         JLabel player = new JLabel("");
@@ -73,7 +72,6 @@ class gameGUI extends JFrame implements ActionListener {
         Color defaultColor = UIManager.getColor( "Panel.background");
         Color pOneWin = Color.RED;
         Color pTwoWin = Color.GREEN;
-
 
         for (int i = 0; i < buttons.length; i++) {
             buttons[i] = new JButton("");
