@@ -2,7 +2,12 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.DateFormat;
+import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
 import java.util.Random;
+import javax.swing.Timer;
+import javax.swing.border.EmptyBorder;
 
 public class Main {
     public static void main(String[] args) {
@@ -13,6 +18,10 @@ public class Main {
 }
 
 class gameGUI extends JFrame implements ActionListener {
+
+    int seconds,minutes;
+    String dSeconds, dMinutes;
+    Timer timer;
 
     gameGUI(String title) {
         // Defining the Frame and it's basic options
@@ -32,9 +41,9 @@ class gameGUI extends JFrame implements ActionListener {
 
         //Defining the buttons and also adding them to the Frame
         JButton play = new JButton("Play");
-        JButton newGame = new JButton("New Game");
+        JButton resetBoard = new JButton("Reset Board");
         bottomButtons.add(play);
-        bottomButtons.add(newGame);
+        bottomButtons.add(resetBoard);
 
         add(bottomButtons, BorderLayout.PAGE_END);
         add(gridPanel, BorderLayout.CENTER);
@@ -44,14 +53,25 @@ class gameGUI extends JFrame implements ActionListener {
         //Defining Labels
         JLabel victory = new JLabel("");
         JLabel player = new JLabel("");
+        JLabel gmcounter = new JLabel("");
         victory.setFont(new java.awt.Font("Arial", Font.BOLD, 20));
         player.setFont(new java.awt.Font("Arial", Font.BOLD, 20));
+        gmcounter.setFont(new java.awt.Font("Arial", Font.BOLD, 20));
+        gmcounter.setBorder(new EmptyBorder(0,50,0,0));
 
         victory.setVisible(false);
         topElements.add(player);
         topElements.add(victory);
-        newGame.setEnabled(false);
+        topElements.add(gmcounter);
+        resetBoard.setEnabled(false);
+        gmcounter.setVisible(true);
         JButton[] buttons = new JButton[9];
+
+        //Colors for the Game
+        Color defaultColor = UIManager.getColor( "Panel.background");
+        Color pOneWin = Color.RED;
+        Color pTwoWin = Color.GREEN;
+
 
         for (int i = 0; i < buttons.length; i++) {
             buttons[i] = new JButton("");
@@ -61,6 +81,25 @@ class gameGUI extends JFrame implements ActionListener {
         }
 
         gameMechanics mechanics = new gameMechanics();
+        DecimalFormat timerFormat = new DecimalFormat("00");
+
+        Timer gameTimer = new Timer(1000, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                seconds++;
+                dSeconds = timerFormat.format(seconds);
+                dMinutes = timerFormat.format(minutes);
+                gmcounter.setText(dMinutes+ ":" + dSeconds);
+
+                if (seconds == 60){
+                    seconds = 0;
+                    minutes++;
+                    dSeconds = timerFormat.format(seconds);
+                    dMinutes = timerFormat.format(minutes);
+                    gmcounter.setText(dMinutes+ ":" + dSeconds);
+                }
+            }
+        });
 
         play.addActionListener(new ActionListener() {
             @Override
@@ -72,6 +111,11 @@ class gameGUI extends JFrame implements ActionListener {
                 for (int i = 0; i < buttons.length; i++) {
                     buttons[i].setEnabled(true);
                 }
+                seconds = 0;
+                minutes = 0;
+                gmcounter.setText("00:00");
+                gmcounter.setVisible(true);
+                gameTimer.start();
             }
         });
 
@@ -85,170 +129,256 @@ class gameGUI extends JFrame implements ActionListener {
                         buttonPressed.setText(mechanics.getPlayerChar());
                             if (buttons[0].getText() == "X" && buttons[1].getText() == "X" && buttons[2].getText() == "X"){
                                 victory.setText("Spieler 1 hat gewonnen !!!");
+                                topElements.setBackground(pOneWin);
+                                buttons[0].setBackground(pOneWin);
+                                buttons[1].setBackground(pOneWin);
+                                buttons[2].setBackground(pOneWin);
                                 victory.setVisible(true);
                                 player.setVisible(false);
                                 for (int h = 0; h < buttons.length; h++){
                                     buttons[h].setEnabled(false);
                                 }
-                                newGame.setEnabled(true);
+                                resetBoard.setEnabled(true);
+                                gameTimer.stop();
                             }
                             if (buttons[3].getText() == "X" && buttons[4].getText() == "X" && buttons[5].getText() == "X"){
                                 victory.setText("Spieler 1 hat gewonnen !!!");
+                                topElements.setBackground(pOneWin);
+                                buttons[3].setBackground(pOneWin);
+                                buttons[4].setBackground(pOneWin);
+                                buttons[5].setBackground(pOneWin);
                                 victory.setVisible(true);
                                 player.setVisible(false);
                                 for (int h = 0; h < buttons.length; h++){
                                     buttons[h].setEnabled(false);
                                 }
-                                newGame.setEnabled(true);
+                                resetBoard.setEnabled(true);
+                                gameTimer.stop();
                             }
                             if (buttons[6].getText() == "X" && buttons[7].getText() == "X" && buttons[8].getText() == "X"){
                                 victory.setText("Spieler 1 hat gewonnen !!!");
+                                topElements.setBackground(pOneWin);
+                                buttons[6].setBackground(pOneWin);
+                                buttons[7].setBackground(pOneWin);
+                                buttons[8].setBackground(pOneWin);
                                 victory.setVisible(true);
                                 player.setVisible(false);
                                 for (int h = 0; h < buttons.length; h++){
                                     buttons[h].setEnabled(false);
                                 }
-                                newGame.setEnabled(true);
+                                resetBoard.setEnabled(true);
+                                gameTimer.stop();
                             }
                             if (buttons[0].getText() =="X" && buttons[3].getText() == "X" && buttons[6].getText() == "X"){
                                 victory.setText("Spieler 1 hat gewonnen !!!");
+                                topElements.setBackground(pOneWin);
+                                buttons[0].setBackground(pOneWin);
+                                buttons[3].setBackground(pOneWin);
+                                buttons[6].setBackground(pOneWin);
                                 victory.setVisible(true);
                                 player.setVisible(false);
                                 for (int h = 0; h < buttons.length; h++){
                                     buttons[h].setEnabled(false);
                                 }
-                                newGame.setEnabled(true);
+                                resetBoard.setEnabled(true);
+                                gameTimer.stop();
                         }
-                        if (buttons[1].getText() =="X" && buttons[4].getText() == "X" && buttons[7].getText() == "X"){
-                            victory.setText("Spieler 1 hat gewonnen !!!");
-                            victory.setVisible(true);
-                            player.setVisible(false);
-                            for (int h = 0; h < buttons.length; h++){
-                                buttons[h].setEnabled(false);
+                            if (buttons[1].getText() =="X" && buttons[4].getText() == "X" && buttons[7].getText() == "X"){
+                                victory.setText("Spieler 1 hat gewonnen !!!");
+                                topElements.setBackground(pOneWin);
+                                buttons[1].setBackground(pOneWin);
+                                buttons[4].setBackground(pOneWin);
+                                buttons[7].setBackground(pOneWin);
+                                victory.setVisible(true);
+                                player.setVisible(false);
+                                for (int h = 0; h < buttons.length; h++){
+                                    buttons[h].setEnabled(false);
+                                }
+                                resetBoard.setEnabled(true);
+                                gameTimer.stop();
                             }
-                            newGame.setEnabled(true);
-                        }
-                        if (buttons[2].getText() =="X" && buttons[5].getText() == "X" && buttons[8].getText() == "X"){
-                            victory.setText("Spieler 1 hat gewonnen !!!");
-                            victory.setVisible(true);
-                            player.setVisible(false);
-                            for (int h = 0; h < buttons.length; h++){
-                                buttons[h].setEnabled(false);
+                            if (buttons[2].getText() =="X" && buttons[5].getText() == "X" && buttons[8].getText() == "X"){
+                                victory.setText("Spieler 1 hat gewonnen !!!");
+                                topElements.setBackground(pOneWin);
+                                buttons[2].setBackground(pOneWin);
+                                buttons[5].setBackground(pOneWin);
+                                buttons[8].setBackground(pOneWin);
+                                victory.setVisible(true);
+                                player.setVisible(false);
+                                for (int h = 0; h < buttons.length; h++){
+                                    buttons[h].setEnabled(false);
+                                }
+                                resetBoard.setEnabled(true);
+                                gameTimer.stop();
                             }
-                            newGame.setEnabled(true);
-                        }
-                        if (buttons[0].getText() =="X" && buttons[4].getText() == "X" && buttons[8].getText() == "X"){
-                            victory.setText("Spieler 1 hat gewonnen !!!");
-                            victory.setVisible(true);
-                            player.setVisible(false);
-                            for (int h = 0; h < buttons.length; h++){
-                                buttons[h].setEnabled(false);
+                            if (buttons[0].getText() =="X" && buttons[4].getText() == "X" && buttons[8].getText() == "X"){
+                                victory.setText("Spieler 1 hat gewonnen !!!");
+                                victory.setVisible(true);
+                                player.setVisible(false);
+                                topElements.setBackground(pOneWin);
+                                buttons[0].setBackground(pOneWin);
+                                buttons[4].setBackground(pOneWin);
+                                buttons[8].setBackground(pOneWin);
+                                for (int h = 0; h < buttons.length; h++){
+                                    buttons[h].setEnabled(false);
+                                }
+                                resetBoard.setEnabled(true);
+                                gameTimer.stop();
                             }
-                            newGame.setEnabled(true);
-                        }
-                        if (buttons[2].getText() =="X" && buttons[4].getText() == "X" && buttons[6].getText() == "X"){
-                            victory.setText("Spieler 1 hat gewonnen !!!");
-                            victory.setVisible(true);
-                            player.setVisible(false);
-                            for (int h = 0; h < buttons.length; h++){
-                                buttons[h].setEnabled(false);
+                            if (buttons[2].getText() =="X" && buttons[4].getText() == "X" && buttons[6].getText() == "X"){
+                                victory.setText("Spieler 1 hat gewonnen !!!");
+                                victory.setVisible(true);
+                                player.setVisible(false);
+                                topElements.setBackground(pOneWin);
+                                buttons[2].setBackground(pOneWin);
+                                buttons[4].setBackground(pOneWin);
+                                buttons[6].setBackground(pOneWin);
+                                for (int h = 0; h < buttons.length; h++){
+                                    buttons[h].setEnabled(false);
+                                }
+                                resetBoard.setEnabled(true);
+                                gameTimer.stop();
                             }
-                            newGame.setEnabled(true);
-                        }
 
-                        if (buttons[0].getText() == "O" && buttons[1].getText() == "O" && buttons[2].getText() == "O"){
-                            victory.setText("Spieler 2 hat gewonnen !!!");
-                            victory.setVisible(true);
-                            player.setVisible(false);
-                            for (int h = 0; h < buttons.length; h++){
-                                buttons[h].setEnabled(false);
+                            if (buttons[0].getText() == "O" && buttons[1].getText() == "O" && buttons[2].getText() == "O"){
+                                victory.setText("Spieler 2 hat gewonnen !!!");
+                                topElements.setBackground(pTwoWin);
+                                buttons[0].setBackground(pTwoWin);
+                                buttons[1].setBackground(pTwoWin);
+                                buttons[2].setBackground(pTwoWin);
+                                victory.setVisible(true);
+                                player.setVisible(false);
+                                for (int h = 0; h < buttons.length; h++){
+                                    buttons[h].setEnabled(false);
+                                }
+                                resetBoard.setEnabled(true);
+                                gameTimer.stop();
                             }
-                            newGame.setEnabled(true);
-                        }
-                        if (buttons[3].getText() == "O" && buttons[4].getText() == "O" && buttons[5].getText() == "O"){
-                            victory.setText("Spieler 2 hat gewonnen !!!");
-                            victory.setVisible(true);
-                            player.setVisible(false);
-                            for (int h = 0; h < buttons.length; h++){
-                                buttons[h].setEnabled(false);
+                            if (buttons[3].getText() == "O" && buttons[4].getText() == "O" && buttons[5].getText() == "O"){
+                                victory.setText("Spieler 2 hat gewonnen !!!");
+                                topElements.setBackground(pTwoWin);
+                                buttons[3].setBackground(pTwoWin);
+                                buttons[4].setBackground(pTwoWin);
+                                buttons[5].setBackground(pTwoWin);
+                                victory.setVisible(true);
+                                player.setVisible(false);
+                                for (int h = 0; h < buttons.length; h++){
+                                    buttons[h].setEnabled(false);
+                                }
+                                resetBoard.setEnabled(true);
+                                gameTimer.stop();
                             }
-                            newGame.setEnabled(true);
-                        }
-                        if (buttons[6].getText() == "O" && buttons[7].getText() == "O" && buttons[8].getText() == "O"){
-                            victory.setText("Spieler 2 hat gewonnen !!!");
-                            victory.setVisible(true);
-                            player.setVisible(false);
-                            for (int h = 0; h < buttons.length; h++){
-                                buttons[h].setEnabled(false);
+                            if (buttons[6].getText() == "O" && buttons[7].getText() == "O" && buttons[8].getText() == "O"){
+                                victory.setText("Spieler 2 hat gewonnen !!!");
+                                topElements.setBackground(pTwoWin);
+                                buttons[6].setBackground(pTwoWin);
+                                buttons[7].setBackground(pTwoWin);
+                                buttons[8].setBackground(pTwoWin);
+                                victory.setVisible(true);
+                                player.setVisible(false);
+                                for (int h = 0; h < buttons.length; h++){
+                                    buttons[h].setEnabled(false);
+                                }
+                                resetBoard.setEnabled(true);
+                                gameTimer.stop();
                             }
-                            newGame.setEnabled(true);
-                        }
-                        if (buttons[0].getText() =="O" && buttons[3].getText() == "O" && buttons[6].getText() == "O"){
-                            victory.setText("Spieler 2 hat gewonnen !!!");
-                            victory.setVisible(true);
-                            player.setVisible(false);
-                            for (int h = 0; h < buttons.length; h++){
-                                buttons[h].setEnabled(false);
+                            if (buttons[0].getText() =="O" && buttons[3].getText() == "O" && buttons[6].getText() == "O"){
+                                victory.setText("Spieler 2 hat gewonnen !!!");
+                                topElements.setBackground(pTwoWin);
+                                buttons[0].setBackground(pTwoWin);
+                                buttons[3].setBackground(pTwoWin);
+                                buttons[6].setBackground(pTwoWin);
+                                victory.setVisible(true);
+                                player.setVisible(false);
+                                for (int h = 0; h < buttons.length; h++){
+                                    buttons[h].setEnabled(false);
+                                }
+                                resetBoard.setEnabled(true);
+                                gameTimer.stop();
                             }
-                            newGame.setEnabled(true);
-                        }
-                        if (buttons[1].getText() =="O" && buttons[4].getText() == "O" && buttons[7].getText() == "O"){
-                            victory.setText("Spieler 2 hat gewonnen !!!");
-                            victory.setVisible(true);
-                            player.setVisible(false);
-                            for (int h = 0; h < buttons.length; h++){
-                                buttons[h].setEnabled(false);
+                            if (buttons[1].getText() =="O" && buttons[4].getText() == "O" && buttons[7].getText() == "O"){
+                                victory.setText("Spieler 2 hat gewonnen !!!");
+                                topElements.setBackground(pTwoWin);
+                                buttons[1].setBackground(pTwoWin);
+                                buttons[4].setBackground(pTwoWin);
+                                buttons[7].setBackground(pTwoWin);
+                                victory.setVisible(true);
+                                player.setVisible(false);
+                                for (int h = 0; h < buttons.length; h++){
+                                    buttons[h].setEnabled(false);
+                                }
+                                resetBoard.setEnabled(true);
+                                gameTimer.stop();
                             }
-                            newGame.setEnabled(true);
-                        }
-                        if (buttons[2].getText() =="O" && buttons[5].getText() == "O" && buttons[8].getText() == "O"){
-                            victory.setText("Spieler 2 hat gewonnen !!!");
-                            victory.setVisible(true);
-                            player.setVisible(false);
-                            for (int h = 0; h < buttons.length; h++){
-                                buttons[h].setEnabled(false);
+                            if (buttons[2].getText() =="O" && buttons[5].getText() == "O" && buttons[8].getText() == "O"){
+                                victory.setText("Spieler 2 hat gewonnen !!!");
+                                topElements.setBackground(pTwoWin);
+                                buttons[2].setBackground(pTwoWin);
+                                buttons[5].setBackground(pTwoWin);
+                                buttons[8].setBackground(pTwoWin);
+                                victory.setVisible(true);
+                                player.setVisible(false);
+                                for (int h = 0; h < buttons.length; h++){
+                                    buttons[h].setEnabled(false);
+                                }
+                                resetBoard.setEnabled(true);
+                                gameTimer.stop();
                             }
-                            newGame.setEnabled(true);
-                        }
-                        if (buttons[0].getText() =="O" && buttons[4].getText() == "O" && buttons[8].getText() == "O"){
-                            victory.setText("Spieler 2 hat gewonnen !!!");
-                            victory.setVisible(true);
-                            player.setVisible(false);
-                            for (int h = 0; h < buttons.length; h++){
-                                buttons[h].setEnabled(false);
+                            if (buttons[0].getText() =="O" && buttons[4].getText() == "O" && buttons[8].getText() == "O"){
+                                victory.setText("Spieler 2 hat gewonnen !!!");
+                                topElements.setBackground(pTwoWin);
+                                buttons[0].setBackground(pTwoWin);
+                                buttons[4].setBackground(pTwoWin);
+                                buttons[8].setBackground(pTwoWin);
+                                victory.setVisible(true);
+                                player.setVisible(false);
+                                for (int h = 0; h < buttons.length; h++){
+                                    buttons[h].setEnabled(false);
+                                }
+                                resetBoard.setEnabled(true);
+                                gameTimer.stop();
                             }
-                            newGame.setEnabled(true);
-                        }
-                        if (buttons[2].getText() =="O" && buttons[4].getText() == "O" && buttons[6].getText() == "O"){
-                            victory.setText("Spieler 2 hat gewonnen !!!");
-                            victory.setVisible(true);
-                            player.setVisible(false);
-                            for (int h = 0; h < buttons.length; h++){
-                                buttons[h].setEnabled(false);
+                            if (buttons[2].getText() =="O" && buttons[4].getText() == "O" && buttons[6].getText() == "O"){
+                                victory.setText("Spieler 2 hat gewonnen !!!");
+                                topElements.setBackground(pTwoWin);
+                                buttons[2].setBackground(pTwoWin);
+                                buttons[4].setBackground(pTwoWin);
+                                buttons[6].setBackground(pTwoWin);
+                                victory.setVisible(true);
+                                player.setVisible(false);
+                                for (int h = 0; h < buttons.length; h++){
+                                    buttons[h].setEnabled(false);
+                                }
+                                resetBoard.setEnabled(true);
+                                gameTimer.stop();
                             }
-                            newGame.setEnabled(true);
-                        }
                         buttonPressed.setEnabled(false);
-                        if( mechanics.movesCounter(+1) == true && !victory.isVisible()){
+                        mechanics.movescounter ++;
+                        if( mechanics.movesCounter() == true && !victory.isVisible()){
                             player.setVisible(false);
                             victory.setText("Unentschieden");
                             victory.setVisible(true);
-                            newGame.setEnabled(true);
+                            resetBoard.setEnabled(true);
+                            gameTimer.stop();
                         }
                     }
                 });
             }
        }
 
-      newGame.addActionListener(new ActionListener() {
+      resetBoard.addActionListener(new ActionListener() {
           @Override
           public void actionPerformed(ActionEvent e) {
               for (int i = 0; i < buttons.length; i++){
                   buttons[i].setText("");
-                  buttons[i].setEnabled(true);
+                  gmcounter.setText("");
+                  buttons[i].setEnabled(false);
+                  buttons[i].setBackground(defaultColor);
                   victory.setVisible(false);
-                  newGame.setEnabled(false);
+                  resetBoard.setEnabled(false);
+                  mechanics.movescounter = 0;
                   play.setEnabled(true);
+                  topElements.setBackground(defaultColor);
               }
           }
       });
@@ -263,6 +393,7 @@ class gameGUI extends JFrame implements ActionListener {
 class gameMechanics {
     boolean playerOne;
     boolean playerTwo;
+    int movescounter;
 
     public int getRandomNum() {
         Random chosenPlayer = new Random();
@@ -304,12 +435,10 @@ class gameMechanics {
         return playerChar;
     }
 
-    public boolean movesCounter(int counter){
+    public boolean movesCounter(){
         boolean check =false;
-        int moves;
-        moves = counter;
-        if(moves > 8) {
-            moves = 0;
+        if(movescounter > 8) {
+            movescounter = 0;
             check = true;
         }
         return check;
