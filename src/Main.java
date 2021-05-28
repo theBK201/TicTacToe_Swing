@@ -8,6 +8,7 @@ import java.text.SimpleDateFormat;
 import java.util.Random;
 import javax.swing.Timer;
 import javax.swing.border.EmptyBorder;
+import javax.swing.border.LineBorder;
 
 public class Main {
     public static void main(String[] args) {
@@ -38,6 +39,7 @@ class gameGUI extends JFrame implements ActionListener {
         gridPanel.setLayout(new GridLayout(3, 3));
         bottomButtons.setLayout(new FlowLayout());
         topElements.setLayout(new FlowLayout());
+        gridPanel.setBorder(new EmptyBorder(20,0,20,0));
 
         //Defining the buttons and also adding them to the Frame
         JButton play = new JButton("Play");
@@ -78,6 +80,7 @@ class gameGUI extends JFrame implements ActionListener {
             buttons[i].setFont(new java.awt.Font("Arial", Font.BOLD, 30));
             gridPanel.add(buttons[i]);
             buttons[i].setEnabled(false);
+            buttons[i].setBorder(new LineBorder(Color.black,1));
         }
 
         gameMechanics mechanics = new gameMechanics();
